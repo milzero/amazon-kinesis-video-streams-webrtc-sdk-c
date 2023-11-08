@@ -734,10 +734,12 @@ STATUS createPeerConnection(PRtcConfiguration pConfiguration, PRtcPeerConnection
         : pConfiguration->kvsRtcConfiguration.maximumTransmissionUnit;
     pKvsPeerConnection->sctpIsEnabled = FALSE;
 
+    // 网络事件的回调
     iceAgentCallbacks.customData = (UINT64) pKvsPeerConnection;
     iceAgentCallbacks.inboundPacketFn = onInboundPacket;
     iceAgentCallbacks.connectionStateChangedFn = onIceConnectionStateChange;
     iceAgentCallbacks.newLocalCandidateFn = onNewIceLocalCandidate;
+
     CHK_STATUS(createConnectionListener(&pConnectionListener));
     // IceAgent will own the lifecycle of pConnectionListener;
     CHK_STATUS(createIceAgent(pKvsPeerConnection->localIceUfrag, pKvsPeerConnection->localIcePwd, &iceAgentCallbacks, pConfiguration,
